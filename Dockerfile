@@ -8,6 +8,6 @@ COPY ["package-lock.json", "/app/package-lock.json"]
 RUN npm ci
 
 COPY ["canvas-api-request.js", "/app/canvas-api-request.js"]
-COPY ["sync-context-ids.js", "/app/sync-context-ids.js"]
+COPY ["sync-emails.js", "/app/sync-emails.js"]
 
-ENTRYPOINT ["node", "sync-context-ids.js"]
+ENTRYPOINT ["node", "sync-emails.js"]

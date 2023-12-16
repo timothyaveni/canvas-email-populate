@@ -4,14 +4,14 @@ import { parse } from 'csv-parse/sync';
 import { stringify } from 'csv-stringify/sync';
 
 if (process.argv.length !== 4) {
-  console.error('Usage: node sync-context-ids.js <gradebook.csv> <output.csv>');
+  console.error('Usage: node sync-emails.js <gradebook.csv> <output.csv>');
   process.exit(1);
 }
 
 const gradebookStudents = parse(fs.readFileSync(process.argv[2]), { columns: true });
 
 const canvasStudents = await canvasApiRequest(
-  '/users?include[]=lti_id&per_page=50',
+  '/users?include[]=email&per_page=50',
   a => a,
 );
 
@@ -20,10 +20,10 @@ let processedStudents = 0;
 for (const gs of gradebookStudents) {
   const student = canvasStudents.find(cs => cs.id.toString() === gs.ID.toString());
   if (student) {
-    gs.lti_id = student.lti_id;
+    gs.email = student.email;
     processedStudents++;
   } else {
-    gs.lti_id = '';
+    gs.email = '';
     console.error(`No student found in Canvas -- ${gs.ID, gs.Student}`);
   }
 }
